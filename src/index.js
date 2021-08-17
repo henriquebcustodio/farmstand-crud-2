@@ -44,8 +44,13 @@ app.post('/farms', async (req, res) => {
 // Farm show page
 app.get('/farms/:id', async (req, res) => {
     const farm = await Farm.findById(req.params.id).populate('products');
-    console.log(farm);
     res.render('farms/details', { farm });
+});
+
+// Delete farm
+app.delete('/farms/:id', async (req, res) => {
+    const farm = await Farm.findByIdAndDelete(req.params.id);
+    res.redirect('/farms');
 });
 
 // New product inside a farm form
@@ -118,6 +123,7 @@ app.put('/products/:id/', async (req, res) => {
     res.redirect(`/products/${product._id}`);
 });
 
+// Delete product
 app.delete('/products/:id/', async (req, res) => {
     const { id } = req.params;
     const deletedProduct = await Product.findByIdAndDelete(id);
